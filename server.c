@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
+//CONTINUA QUI CON LA RICEZIONE DEI SEGNALI E MANDANDO UN FEEDBACK
+//SIGUSR1 = 0, SIGUSR2 = 1
 void	sigusr1_handler()
 {
 	

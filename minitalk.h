@@ -19,4 +19,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+int		ft_strlen(char *str);
+void	ft_putstr(char *str);
+int		ft_atoi(const char *str);
+
+void	send_bits(char c, int pid);
+void	send_string(char *str, int pid)
+
 #endif

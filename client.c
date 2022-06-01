@@ -12,32 +12,32 @@
 
 #include "minitalk_h"
 
-
-// CONTINUA QUI DA SEND BITS, MANDA I BITS 1 PER UNO, POI FALLO CON SIGUSR1,2
-int	ft_strlen(char *str)
+//QUI DEVI ASPETTARE E RICEVERE IL SEGNALE DI FEEDBACK
+void	send_string(char *str, int pid)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] != 0)
-		i++;
-	return (i);
+	i = -1;
+	while (++i < ft_strlen(str))
+		send_bits(str[i], pid);
 }
 
-void	send_bits(char *str)
+//SIGUSR1 = 0, SIGUSR2 = 1
+void	send_bits(char c, int pid)
 {
+    int             i;
+    unsigned int    bitMax;
 
-}
-
-void	ft_putstr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		write(1, &str[i], 1);
-		i++;
+    bitMax = 1<<(sizeof(int)*8-1);
+    i = 0;
+	while (i < sizeof(char))
+    {
+		if (c&bitMax)
+			kill(pid, SIGUSR2);
+		else
+			kill(pid, SIGUSR1);
+		c = c<<1;
+    	i++;
 	}
 }
 
@@ -55,8 +55,8 @@ int	main(int argc, char *argv[])
 		ft_putstr("Error! Please check your parameters.");
 		return (0);
 	}
-	str = malloc (ft_strlen (argv[3]) + 1);
-	while (++i < ft_strlen ((argv[3]) + 1))
+	str = malloc (ft_strlen(argv[3]) + 1);
+	while (++i < ft_strlen((argv[3]) + 1))
 		str = argv[3][i];
-	
+	send_string(str, pid);
 }
