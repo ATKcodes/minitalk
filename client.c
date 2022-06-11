@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_h"
+#include "minitalk.h"
 
 //QUI DEVI ASPETTARE E RICEVERE IL SEGNALE DI FEEDBACK
 void	send_string(char *str, int pid)
@@ -20,43 +20,51 @@ void	send_string(char *str, int pid)
 	i = -1;
 	while (++i < ft_strlen(str))
 		send_bits(str[i], pid);
+	free(str);
 }
 
 //SIGUSR1 = 0, SIGUSR2 = 1
 void	send_bits(char c, int pid)
 {
-    int             i;
-    unsigned int    bitMax;
+	int				i;
+	unsigned int	bitmax;
 
-    bitMax = 1<<(sizeof(int)*8-1);
-    i = 0;
+	bitmax = 1 << (sizeof (int) * 8 - 1);
+	i = 0;
 	while (i < sizeof(char))
-    {
-		if (c&bitMax)
-			kill(pid, SIGUSR2);
+	{
+		if (c & bitmax)
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				error_msg();
+		}
 		else
-			kill(pid, SIGUSR1);
-		c = c<<1;
-    	i++;
+		{
+			if (kill(pid, SIGUSR1) == -1)
+				error_msg();
+		}
+		c = c << 1;
+		i++;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	int		pid;
-	char	*str;
-	int		i;
+	int					pid;
+	char				*str;
+	int					i;
 
 	i = -1;
-	pid = ft_atoi(argv[2]);
-	if (argc < 3 || argc > 3)
+	ft_putstr("Arguments are : [./client][pid][string]\n");
+	pid = ft_atoi(argv[1]);
+	if (argc != 3 || !ft_strlen(argv[2]))
 	{
-		kill(pid);
-		ft_putstr("Error! Please check your parameters.");
+		kill(pid, SIGTERM);
+		ft_putstr("Error! Please check your parameters.\n");
 		return (0);
 	}
-	str = malloc (ft_strlen(argv[3]) + 1);
-	while (++i < ft_strlen((argv[3]) + 1))
-		str = argv[3][i];
+	str = malloc (ft_strlen(argv[2]) + 1);
+	while (++i < ft_strlen((argv[2]) + 1))
+		str = argv[2][i];
 	send_string(str, pid);
 }

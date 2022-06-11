@@ -13,17 +13,20 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <signal.h>
+# include <stdlib.h>
+
+void	sigusr2_handler(int sig);
+void	sigusr1_handler(int sig);
 
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
 int		ft_atoi(const char *str);
+void	error_msg(void);
 
 void	send_bits(char c, int pid);
-void	send_string(char *str, int pid)
+void	send_string(char *str, int pid);
 
 #endif

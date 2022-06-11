@@ -62,3 +62,9 @@ int	ft_atoi(const char *str)
 	}
 	return (r * c);
 }
+
+void	error_msg(void)
+{
+	ft_putstr("Wrong PID!");
+	exit(1);
+}
