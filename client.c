@@ -55,16 +55,17 @@ int	main(int argc, char *argv[])
 	int					i;
 
 	i = -1;
-	ft_putstr("Arguments are : [./client][pid][string]\n");
 	pid = ft_atoi(argv[1]);
 	if (argc != 3 || !ft_strlen(argv[2]))
 	{
 		kill(pid, SIGTERM);
+		ft_putstr("Arguments are : [./client][pid][string]\n");
 		ft_putstr("Error! Please check your parameters.\n");
 		return (0);
 	}
 	str = malloc (ft_strlen(argv[2]) + 1);
-	while (++i < ft_strlen((argv[2]) + 1))
-		str = argv[2][i];
+	while (++i < ft_strlen(argv[2]))
+		str[i] = argv[2][i];
+	str[i] = 0;
 	send_string(str, pid);
 }

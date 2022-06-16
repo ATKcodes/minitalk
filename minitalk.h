@@ -18,9 +18,6 @@
 # include <signal.h>
 # include <stdlib.h>
 
-void	sigusr2_handler(int sig);
-void	sigusr1_handler(int sig);
-
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
 int		ft_atoi(const char *str);
