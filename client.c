@@ -31,7 +31,7 @@ void	send_bits(char c, int pid)
 
 	bitmax = 1 << (sizeof (int) * 8 - 1);
 	i = 0;
-	while (i < sizeof(char))
+	while (i < sizeof(char) * 8)
 	{
 		if (c & bitmax)
 		{
@@ -55,7 +55,6 @@ int	main(int argc, char *argv[])
 	int					i;
 
 	i = -1;
-	pid = ft_atoi(argv[1]);
 	if (argc != 3 || !ft_strlen(argv[2]))
 	{
 		kill(pid, SIGTERM);
@@ -63,9 +62,10 @@ int	main(int argc, char *argv[])
 		ft_putstr("Error! Please check your parameters.\n");
 		return (0);
 	}
+	pid = ft_atoi(argv[1]);
 	str = malloc (ft_strlen(argv[2]) + 1);
 	while (++i < ft_strlen(argv[2]))
 		str[i] = argv[2][i];
-	str[i] = 0;
+	str[i] = '\0';
 	send_string(str, pid);
 }

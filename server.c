@@ -52,6 +52,7 @@ void	s_handler(int sig, siginfo_t *siginfo, void *context)
 	c += bit << i;
 	pid = siginfo->si_pid;
 	i++;
+	ft_putstr("diostronzo");
 	if (i == 8)
 	{
 		write(1, &c, 1);
@@ -74,5 +75,5 @@ int	main(void)
 	if (sigaction (SIGUSR2, &sa, NULL) == -1)
 		error_msg();
 	while (1)
-		pause() ;
+		pause();
 }
