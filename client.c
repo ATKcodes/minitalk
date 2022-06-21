@@ -57,9 +57,8 @@ int	main(int argc, char *argv[])
 	i = -1;
 	if (argc != 3 || !ft_strlen(argv[2]))
 	{
-		kill(pid, SIGTERM);
-		ft_putstr("Arguments are : [./client][pid][string]\n");
 		ft_putstr("Error! Please check your parameters.\n");
+		ft_putstr("Arguments are : [./client][pid][string]\n");
 		return (0);
 	}
 	pid = ft_atoi(argv[1]);

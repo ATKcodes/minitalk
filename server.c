@@ -39,20 +39,22 @@ void	ft_putnbr(int nb)
 
 void	s_handler(int sig, siginfo_t *siginfo, void *context)
 {
-	static int	i;
-	int			pid;
-	static char	c;
-	int			bit;
+	static int		i;
+	int				pid;
+	unsigned char	c;
+	int				bit;
 
+	if (i == 0)
+		c = 'A' >> 7;
 	(void)context;
 	if (sig == SIGUSR1)
 		bit = 0;
 	else
 		bit = 1;
-	c += bit << i;
+	c += bit >> i;
 	pid = siginfo->si_pid;
 	i++;
-	ft_putstr("diostronzo");
+	ft_putnbr(i);
 	if (i == 8)
 	{
 		write(1, &c, 1);
@@ -70,6 +72,7 @@ int	main(void)
 	sa.sa_sigaction = s_handler;
 	pid = getpid();
 	ft_putnbr(pid);
+	write(1, "\n", 1);
 	if (sigaction (SIGUSR1, &sa, NULL) == -1)
 		error_msg();
 	if (sigaction (SIGUSR2, &sa, NULL) == -1)
