@@ -29,7 +29,7 @@ void	send_bits(char c, int pid)
 	int				i;
 	unsigned int	bitmax;
 
-	bitmax = 1 << (sizeof (int) * 8 - 1);
+	bitmax = 1 << (sizeof (char) * 8 - 1);
 	i = 0;
 	while (i < sizeof(char) * 8)
 	{
@@ -46,6 +46,7 @@ void	send_bits(char c, int pid)
 		c = c << 1;
 		i++;
 	}
+	usleep(10000);
 }
 
 int	main(int argc, char *argv[])

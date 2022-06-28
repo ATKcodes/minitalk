@@ -39,19 +39,17 @@ void	ft_putnbr(int nb)
 
 void	s_handler(int sig, siginfo_t *siginfo, void *context)
 {
-	static int		i;
-	int				pid;
-	unsigned char	c;
-	int				bit;
+	static int				i = 0;
+	int						pid;
+	static unsigned char	c = 0;
+	int						bit;
 
-	if (i == 0)
-		c = 'A' >> 7;
 	(void)context;
 	if (sig == SIGUSR1)
 		bit = 0;
 	else
 		bit = 1;
-	c += bit >> i;
+	c = c | bit;
 	pid = siginfo->si_pid;
 	i++;
 	ft_putnbr(i);
@@ -61,6 +59,7 @@ void	s_handler(int sig, siginfo_t *siginfo, void *context)
 		i = 0;
 		c = 0;
 	}
+	c = c << 1;
 }
 
 int	main(void)
@@ -74,9 +73,11 @@ int	main(void)
 	ft_putnbr(pid);
 	write(1, "\n", 1);
 	if (sigaction (SIGUSR1, &sa, NULL) == -1)
-		error_msg();
+		printf("errore1\n");
+		// error_msg();
 	if (sigaction (SIGUSR2, &sa, NULL) == -1)
-		error_msg();
+		printf("errore2\n");
+		//error_msg();
 	while (1)
 		pause();
 }
