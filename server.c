@@ -45,14 +45,9 @@ void	s_handler(int sig, siginfo_t *siginfo, void *context)
 	int						bit;
 
 	(void)context;
-	if (sig == SIGUSR1)
-		bit = 0;
-	else
-		bit = 1;
-	c = c | bit;
+	c |= (sig == SIGUSR1);
 	pid = siginfo->si_pid;
 	i++;
-	ft_putnbr(i);
 	if (i == 8)
 	{
 		write(1, &c, 1);

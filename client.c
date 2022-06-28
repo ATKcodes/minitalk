@@ -12,6 +12,21 @@
 
 #include "minitalk.h"
 
+void	ft_diostronzo(char c, int pid)
+{
+	int	i;
+
+	i = 8;
+	while (i--)
+	{
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		usleep(100);
+	}
+}
+
 //QUI DEVI ASPETTARE E RICEVERE IL SEGNALE DI FEEDBACK
 void	send_string(char *str, int pid)
 {
@@ -27,26 +42,22 @@ void	send_string(char *str, int pid)
 void	send_bits(char c, int pid)
 {
 	int				i;
-	unsigned int	bitmax;
 
-	bitmax = 1 << (sizeof (char) * 8 - 1);
-	i = 0;
-	while (i < sizeof(char) * 8)
+	i = 8;
+	while (i--)
 	{
-		if (c & bitmax)
-		{
-			if (kill(pid, SIGUSR2) == -1)
-				error_msg();
-		}
-		else
+		if ((c >> i) & 1)
 		{
 			if (kill(pid, SIGUSR1) == -1)
 				error_msg();
 		}
-		c = c << 1;
-		i++;
+		else
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				error_msg();
+		}
+		usleep(99);
 	}
-	usleep(10000);
 }
 
 int	main(int argc, char *argv[])
