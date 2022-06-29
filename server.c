@@ -11,38 +11,13 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
-//CONTINUA QUI CON LA RICEZIONE DEI SEGNALI E MANDANDO UN FEEDBACK
+
 //SIGUSR1 = 0, SIGUSR2 = 1
-
-void	ft_putnbr(int nb)
-{
-	char	l;
-
-	if (nb == -2147483648)
-	{
-		ft_putnbr((nb / 10));
-		write(1, "8", 1);
-	}
-	else if (nb < 0)
-	{
-		write(1, "-", 1);
-		ft_putnbr(-nb);
-	}
-	else
-	{
-		if (nb > 9)
-			ft_putnbr((nb / 10));
-		l = 48 + nb % 10;
-		write(1, &l, 1);
-	}
-}
-
 void	s_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	static int				i = 0;
 	int						pid;
 	static unsigned char	c = 0;
-	int						bit;
 
 	(void)context;
 	c |= (sig == SIGUSR1);
@@ -68,11 +43,9 @@ int	main(void)
 	ft_putnbr(pid);
 	write(1, "\n", 1);
 	if (sigaction (SIGUSR1, &sa, NULL) == -1)
-		printf("errore1\n");
-		// error_msg();
+		error_msg("Error while receiving the signal");
 	if (sigaction (SIGUSR2, &sa, NULL) == -1)
-		printf("errore2\n");
-		//error_msg();
+		error_msg("Error while receiving the signal");
 	while (1)
 		pause();
 }

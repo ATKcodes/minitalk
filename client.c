@@ -12,32 +12,6 @@
 
 #include "minitalk.h"
 
-void	ft_diostronzo(char c, int pid)
-{
-	int	i;
-
-	i = 8;
-	while (i--)
-	{
-		if ((c >> i) & 1)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		usleep(100);
-	}
-}
-
-//QUI DEVI ASPETTARE E RICEVERE IL SEGNALE DI FEEDBACK
-void	send_string(char *str, int pid)
-{
-	int	i;
-
-	i = -1;
-	while (++i < ft_strlen(str))
-		send_bits(str[i], pid);
-	free(str);
-}
-
 //SIGUSR1 = 0, SIGUSR2 = 1
 void	send_bits(char c, int pid)
 {
@@ -49,15 +23,25 @@ void	send_bits(char c, int pid)
 		if ((c >> i) & 1)
 		{
 			if (kill(pid, SIGUSR1) == -1)
-				error_msg();
+				error_msg("Wrong PID!");
 		}
 		else
 		{
 			if (kill(pid, SIGUSR2) == -1)
-				error_msg();
+				error_msg("Wrong PID!");
 		}
-		usleep(99);
+		usleep(69);
 	}
+}
+
+void	send_string(char *str, int pid)
+{
+	int	i;
+
+	i = -1;
+	while (++i < ft_strlen(str))
+		send_bits(str[i], pid);
+	free(str);
 }
 
 int	main(int argc, char *argv[])

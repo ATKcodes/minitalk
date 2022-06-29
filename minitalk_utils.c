@@ -12,6 +12,29 @@
 
 #include "minitalk.h"
 
+void	ft_putnbr(int nb)
+{
+	char	l;
+
+	if (nb == -2147483648)
+	{
+		ft_putnbr((nb / 10));
+		write(1, "8", 1);
+	}
+	else if (nb < 0)
+	{
+		write(1, "-", 1);
+		ft_putnbr(-nb);
+	}
+	else
+	{
+		if (nb > 9)
+			ft_putnbr((nb / 10));
+		l = 48 + nb % 10;
+		write(1, &l, 1);
+	}
+}
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -56,8 +79,8 @@ int	ft_atoi(const char *str)
 	return (r);
 }
 
-void	error_msg(void)
+void	error_msg(char *str)
 {
-	ft_putstr("Wrong PID!");
+	ft_putstr(str);
 	exit(1);
 }

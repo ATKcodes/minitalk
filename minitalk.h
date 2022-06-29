@@ -17,13 +17,12 @@
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <stdarg.h>
 
 int		ft_strlen(char *str);
 void	ft_putstr(char *str);
 int		ft_atoi(const char *str);
-void	error_msg(void);
-
-void	send_bits(char c, int pid);
-void	send_string(char *str, int pid);
+void	error_msg(char *str);
+void	ft_putnbr(int nb);
 
 #endif
