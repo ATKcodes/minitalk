@@ -44,6 +44,7 @@ void	send_string(char *str, int pid)
 		send_bits(str[i], pid);
 	}
 	free(str);
+	exit(0);
 }
 
 void	c_handler(int sig)
