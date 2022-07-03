@@ -30,7 +30,7 @@ void	send_bits(char c, int pid)
 			if (kill(pid, SIGUSR2) == -1)
 				error_msg("Wrong PID!");
 		}
-		usleep(69);
+		usleep(100);
 	}
 }
 
@@ -40,8 +40,24 @@ void	send_string(char *str, int pid)
 
 	i = -1;
 	while (++i < ft_strlen(str))
+	{
 		send_bits(str[i], pid);
+	}
 	free(str);
+}
+
+void	c_handler(int sig)
+{
+	static int	c;
+
+	if (sig == SIGUSR1)
+		c++;
+	else
+		c++;
+	ft_putstr("printed a total of ");
+	ft_putnbr(c);
+	ft_putstr(" characters\n");
+	usleep(69);
 }
 
 int	main(int argc, char *argv[])
@@ -62,5 +78,8 @@ int	main(int argc, char *argv[])
 	while (++i < ft_strlen(argv[2]))
 		str[i] = argv[2][i];
 	str[i] = '\0';
+	signal(SIGUSR1, c_handler);
 	send_string(str, pid);
+	while (1)
+		pause();
 }

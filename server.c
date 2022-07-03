@@ -28,6 +28,7 @@ void	s_handler(int sig, siginfo_t *siginfo, void *context)
 		write(1, &c, 1);
 		i = 0;
 		c = 0;
+		kill(pid, SIGUSR1);
 	}
 	c = c << 1;
 }
